@@ -35,13 +35,12 @@
         showCover: true
       });
 
-      pageFlip.loadFromHTML([
-        `<div class="page" data-density="hard">표지</div>`,
-        `<div class="page">첫 번째 페이지</div>`,
-        `<div class="page">두 번째 페이지</div>`,
-        `<div class="page">세 번째 페이지</div>`,
-        `<div class="page" data-density="hard">끝</div>`
-      ]);
+pageFlip.loadFromImages([
+  "assets/img/page1.jpg",
+  "assets/img/page2.jpg",
+  "assets/img/page3.jpg",
+  "assets/img/page4.jpg"
+]);
     });
   </script>
 </body>
