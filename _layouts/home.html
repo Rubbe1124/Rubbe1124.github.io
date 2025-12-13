@@ -3,22 +3,25 @@
 <head>
   <meta charset="utf-8">
   <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/stpageflip/dist/css/stpageflip.min.css">
 </head>
 <body>
   {{ content }}
 
   <script src="https://cdn.jsdelivr.net/npm/stpageflip/dist/js/stpageflip.min.js"></script>
   <script>
-    const pageFlip = new St.PageFlip(document.getElementById("book"), {
-      width: 300,
-      height: 500,
+    document.addEventListener("DOMContentLoaded", function () {
+      const pageFlip = new St.PageFlip(document.getElementById("book"), {
+        width: 300,
+        height: 500,
+      });
+      pageFlip.loadFromImages([
+        "/assets/img/page1.jpg",
+        "/assets/img/page2.jpg",
+        "/assets/img/page3.jpg",
+        "/assets/img/page4.jpg"
+      ]);
     });
-    pageFlip.loadFromImages([
-      "/assets/img/page1.jpg",
-      "/assets/img/page2.jpg",
-      "/assets/img/page3.jpg",
-      "/assets/img/page4.jpg"
-    ]);
   </script>
 </body>
 </html>
