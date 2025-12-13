@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>{{ page.title }}</title>
 
-  <!-- StPageFlip CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/stpageflip/dist/css/stpageflip.min.css">
+  <!-- PageFlip CSS (올바른 라이브러리 이름: page-flip) -->
+  <link rel="stylesheet" href="https://unpkg.com/page-flip/dist/css/page-flip.min.css">
 
   <style>
     body {
@@ -26,14 +26,14 @@
 
   {{ content }}
 
-  <!-- StPageFlip JS -->
-  <script src="https://unpkg.com/stpageflip/dist/js/stpageflip.min.js"></script>
+  <!-- PageFlip JS -->
+  <script src="https://unpkg.com/page-flip/dist/js/page-flip.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const book = document.getElementById("book");
       if (!book) return;
 
-      // 올바른 초기화: 반드시 St.PageFlip 사용
+      // 올바른 초기화: St.PageFlip
       const pageFlip = new St.PageFlip(book, {
         width: 300,
         height: 500,
