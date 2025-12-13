@@ -1,53 +1,271 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <title>{{ page.title }}</title>
-
-  <!-- PageFlip CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/page-flip/dist/css/page-flip.min.css">
-
+  <meta charset="utf-8" />
+  <title>페이지 넘김 데모 (외부 라이브러리 없음)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* 레이아웃 */
     body {
-      font-family: sans-serif;
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: #f4f5f7;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      max-width: 800px;
+      width: 100%;
+      padding: 24px;
       text-align: center;
     }
-    #book {
-      width: 300px;
-      height: 500px;
-      margin: 24px auto;
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+    header p {
+      margin: 0;
+      color: #555;
+    }
+
+    /* 책 컨테이너 */
+    .book {
+      position: relative;
+      width: 640px;       /* 펼친 책 전체 너비 (좌/우 페이지) */
+      height: 420px;      /* 페이지 높이 */
+      perspective: 2000px;
+      background: #eaeaea;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       overflow: hidden;
+    }
+
+    /* 페이지 베이스 */
+    .page {
+      position: absolute;
+      top: 0;
+      width: 50%;           /* 좌/우 페이지 폭 */
+      height: 100%;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+      transform-style: preserve-3d;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    /* 왼쪽/오른쪽 페이지 기본 위치 */
+    .page.left {
+      left: 0;
+      z-index: 1;
+    }
+    .page.right {
+      right: 0;
+      z-index: 2;
+      transform-origin: left center;
+      /* 초기 상태: 펼쳐진 오른쪽 페이지 */
+      transform: rotateY(0deg);
+    }
+
+    /* 페이지 내용 */
+    .content {
+      padding: 24px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .content h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .content p {
+      margin: 0;
+      line-height: 1.6;
+      color: #333;
+    }
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    /* 전환(넘김) 애니메이션 */
+    .flip {
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    /* 오른쪽 페이지가 뒤로 넘겨진 상태 */
+    .turned {
+      transform: rotateY(-180deg);
+    }
+
+    /* 컨트롤러 */
+    .controls {
+      margin: 14px 0 28px;
+      display: flex;
+      gap: 8px;
+    }
+    .controls button {
+      appearance: none;
+      border: none;
+      background: #111;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .controls button:disabled {
+      background: #999;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* 그림자 효과(넘김 중) */
+    .page.right.flip-shadow::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.12), rgba(0,0,0,0));
+      pointer-events: none;
+    }
+
+    /* 반응형 */
+    @media (max-width: 720px) {
+      .book {
+        width: 92vw;
+        height: calc(92vw * 0.66);
+      }
     }
   </style>
 </head>
 <body>
-  <h1>{{ page.title }}</h1>
-  <h2>{{ page.subtitle }}</h2>
+  <header>
+    <h1>책 넘김 (순수 CSS/JS)</h1>
+    <p>외부 라이브러리, CDN, dist 폴더 없이 즉시 동작하는 버전</p>
+  </header>
 
-  {{ content }}
+  <div class="book" id="book">
+    <!-- 왼쪽 고정 페이지: 현재 왼쪽 면 표시 -->
+    <div class="page left" id="leftPage">
+      <div class="content" id="leftContent">
+        <h2>왼쪽 페이지</h2>
+        <p>여기에 현재 페이지의 왼쪽 면 내용이 렌더링됩니다.</p>
+      </div>
+    </div>
 
-  <!-- PageFlip JS -->
-  <script src="https://unpkg.com/page-flip/dist/js/page-flip.min.js"></script>
+    <!-- 오른쪽 움직이는 페이지: 넘기면서 바뀜 -->
+    <div class="page right flip" id="rightPage">
+      <div class="content" id="rightContent">
+        <h2>오른쪽 페이지</h2>
+        <p>여기에 현재 페이지의 오른쪽 면 내용이 렌더링됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="prevBtn" disabled>이전</button>
+    <button id="nextBtn">다음</button>
+  </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const book = document.getElementById("book");
-      if (!book) return;
+    // 간단한 데이터: 각 '면'에 들어갈 내용(텍스트/이미지)
+    // 한 페이지(넘김 단위)는 좌우 두 면으로 구성된다고 가정
+    const spreads = [
+      {
+        left: { title: "표지", body: "당신의 프로젝트 표지를 여기에.", img: null },
+        right:{ title: "소개", body: "간단한 소개 문구를 넣어보세요.", img: null }
+      },
+      {
+        left: { title: "이미지 데모", body: "이미지를 예시로 보여줍니다.", img: "https://picsum.photos/seed/flip1/480/300" },
+        right:{ title: "설명", body: "위 이미지는 랜덤 샘플입니다.", img: null }
+      },
+      {
+        left: { title: "콘텐츠 A", body: "왼쪽 면 콘텐츠 A.", img: null },
+        right:{ title: "콘텐츠 B", body: "오른쪽 면 콘텐츠 B.", img: "https://picsum.photos/seed/flip2/480/300" }
+      },
+      {
+        left: { title: "마지막-왼쪽", body: "왼쪽 마지막 내용.", img: null },
+        right:{ title: "마지막-오른쪽", body: "오른쪽 마지막 내용.", img: null }
+      }
+    ];
 
-      const pageFlip = new St.PageFlip(book, {
-        width: 300,
-        height: 500,
-        size: "fixed",
-        drawShadow: true,
-        flippingTime: 800
-      });
+    let index = 0; // 현재 펼친 스프레드 인덱스
+    const leftPage = document.getElementById("leftPage");
+    const rightPage = document.getElementById("rightPage");
+    const leftContent = document.getElementById("leftContent");
+    const rightContent = document.getElementById("rightContent");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
 
-      pageFlip.loadFromImages([
-        "{{ site.baseurl }}/assets/img/page1.jpg",
-        "{{ site.baseurl }}/assets/img/page2.jpg",
-        "{{ site.baseurl }}/assets/img/page3.jpg",
-        "{{ site.baseurl }}/assets/img/page4.jpg"
-      ]);
+    // 콘텐츠 렌더링 헬퍼
+    function renderContent(el, data) {
+      el.innerHTML = "";
+      const h2 = document.createElement("h2");
+      h2.textContent = data.title;
+      const p = document.createElement("p");
+      p.textContent = data.body;
+      el.appendChild(h2);
+      el.appendChild(p);
+      if (data.img) {
+        const img = document.createElement("img");
+        img.src = data.img;
+        img.alt = data.title || "image";
+        el.appendChild(img);
+      }
+    }
+
+    // 현재 인덱스의 좌/우 페이지 콘텐츠 반영
+    function updateSpread() {
+      const s = spreads[index];
+      renderContent(leftContent, s.left);
+      renderContent(rightContent, s.right);
+      prevBtn.disabled = index <= 0;
+      nextBtn.disabled = index >= spreads.length - 1;
+    }
+
+    // 다음으로 넘김
+    nextBtn.addEventListener("click", () => {
+      if (index >= spreads.length - 1) return;
+      // 넘김 애니메이션: 오른쪽 페이지 뒤로 넘김
+      rightPage.classList.add("flip-shadow");
+      rightPage.classList.add("turned");
+
+      rightPage.addEventListener("transitionend", handleNextEnd, { once: true });
     });
+
+    function handleNextEnd() {
+      // 인덱스 증가, 새로운 콘텐츠 반영
+      index++;
+      rightPage.classList.remove("turned");
+      rightPage.classList.remove("flip-shadow");
+      updateSpread();
+    }
+
+    // 이전으로 넘김
+    prevBtn.addEventListener("click", () => {
+      if (index <= 0) return;
+      // 이전으로: 오른쪽 페이지를 앞쪽으로 되돌림(시각적으로는 역방향)
+      rightPage.classList.add("flip-shadow");
+      // 잠깐 현재 콘텐츠를 이전 페이지 기준으로 바꿔 놓고 애니메이션
+      index--;
+      updateSpread();
+
+      // 이전으로 넘길 때도 동일 애니메이션을 사용하지만,
+      // 사용자 체감상 '앞으로 돌아간다'는 느낌을 주기 위해
+      // 한번 뒤집었다가 복귀하는 트릭을 사용
+      rightPage.classList.add("turned");
+      setTimeout(() => {
+        rightPage.classList.remove("turned");
+        rightPage.classList.remove("flip-shadow");
+      }, 10);
+    });
+
+    // 초기 렌더
+    updateSpread();
   </script>
 </body>
 </html>
