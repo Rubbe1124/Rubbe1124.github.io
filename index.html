@@ -9,23 +9,9 @@
   <link rel="stylesheet" href="https://unpkg.com/stpageflip/dist/css/stpageflip.min.css">
 
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #f0f0f0;
-    }
-    #book {
-      width: 600px;
-      height: 400px;
-      margin: 40px auto;
-    }
-    .page {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      background: #fff;
-    }
+    body { margin:0; font-family:sans-serif; background:#f0f0f0; }
+    #book { width:600px; height:400px; margin:40px auto; }
+    .page { display:flex; align-items:center; justify-content:center; font-size:24px; background:#fff; }
   </style>
 </head>
 <body>
@@ -35,26 +21,14 @@
   <script src="https://unpkg.com/stpageflip/dist/js/stpageflip.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const pageFlip = new St.PageFlip(
-        document.getElementById("book"),
-        {
-          width: 300,
-          height: 400,
-          size: "fixed",
-          minWidth: 300,
-          maxWidth: 600,
-          minHeight: 400,
-          maxHeight: 800,
-          drawShadow: true,
-          flippingTime: 1000,
-          usePortrait: true,
-          startZIndex: 1,
-          autoSize: true,
-          maxShadowOpacity: 0.5,
-          showCover: true,
-          mobileScrollSupport: true
-        }
-      );
+      const pageFlip = new St.PageFlip(document.getElementById("book"), {
+        width: 300,
+        height: 400,
+        size: "fixed",
+        drawShadow: true,
+        flippingTime: 1000,
+        showCover: true
+      });
 
       pageFlip.loadFromHTML([
         `<div class="page" data-density="hard">표지</div>`,
