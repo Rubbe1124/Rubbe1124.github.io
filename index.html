@@ -2,26 +2,31 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>StPageFlip Demo</title>
+  <title>PageFlip 데모</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- StPageFlip CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/stpageflip/dist/css/stpageflip.min.css">
+  <!-- 로컬 CSS 불러오기 -->
+  <link rel="stylesheet" href="assets/vendor/pageflip/stpageflip.min.css">
 
   <style>
     body { margin:0; font-family:sans-serif; background:#f0f0f0; }
     #book { width:600px; height:400px; margin:40px auto; }
-    .page { display:flex; align-items:center; justify-content:center; font-size:24px; background:#fff; }
+    .page {
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px; background:#fff; padding:20px; box-sizing:border-box;
+    }
   </style>
 </head>
 <body>
   <div id="book"></div>
 
-  <!-- StPageFlip JS -->
-  <script src="https://unpkg.com/stpageflip/dist/js/stpageflip.min.js"></script>
+  <!-- 로컬 JS 불러오기 -->
+  <script src="assets/vendor/pageflip/page-flip.browser.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const pageFlip = new St.PageFlip(document.getElementById("book"), {
+      const el = document.getElementById("book");
+
+      const pageFlip = new St.PageFlip(el, {
         width: 300,
         height: 400,
         size: "fixed",
