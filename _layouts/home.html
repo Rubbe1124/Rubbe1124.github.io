@@ -1,18 +1,24 @@
----
-layout: page
----
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }}</title>
+</head>
+<body>
+  {{ content }}
 
-<div id="book"></div>
-<script src="https://cdn.jsdelivr.net/npm/stpageflip/dist/js/stpageflip.min.js"></script>
-<script>
-  const pageFlip = new St.PageFlip(document.getElementById("book"), {
-    width: 300,
-    height: 500,
-  });
-  pageFlip.loadFromImages([
-    "/assets/img/page1.jpg",
-    "/assets/img/page2.jpg",
-    "/assets/img/page3.jpg",
-    "/assets/img/page4.jpg"
-  ]);
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/stpageflip/dist/js/stpageflip.min.js"></script>
+  <script>
+    const pageFlip = new St.PageFlip(document.getElementById("book"), {
+      width: 300,
+      height: 500,
+    });
+    pageFlip.loadFromImages([
+      "/assets/img/page1.jpg",
+      "/assets/img/page2.jpg",
+      "/assets/img/page3.jpg",
+      "/assets/img/page4.jpg"
+    ]);
+  </script>
+</body>
+</html>
