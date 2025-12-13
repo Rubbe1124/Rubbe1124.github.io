@@ -9,6 +9,7 @@
       width: 300px;
       height: 500px;
       margin: 0 auto;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -21,15 +22,15 @@
   <script src="https://cdn.jsdelivr.net/npm/stpageflip/dist/js/stpageflip.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const pageFlip = new PageFlip(document.getElementById("book"), {
+      const pageFlip = new St.PageFlip(document.getElementById("book"), {
         width: 300,
         height: 500,
       });
       pageFlip.loadFromImages([
-        "/assets/img/page1.jpg",
-        "/assets/img/page2.jpg",
-        "/assets/img/page3.jpg",
-        "/assets/img/page4.jpg"
+        "{{ site.baseurl }}/assets/img/page1.jpg",
+        "{{ site.baseurl }}/assets/img/page2.jpg",
+        "{{ site.baseurl }}/assets/img/page3.jpg",
+        "{{ site.baseurl }}/assets/img/page4.jpg"
       ]);
     });
   </script>
