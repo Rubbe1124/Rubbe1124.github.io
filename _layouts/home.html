@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>{{ page.title }}</title>
 
-  <!-- PageFlip CSS (올바른 라이브러리 이름: page-flip) -->
+  <!-- PageFlip CSS -->
   <link rel="stylesheet" href="https://unpkg.com/page-flip/dist/css/page-flip.min.css">
 
   <style>
@@ -33,7 +33,6 @@
       const book = document.getElementById("book");
       if (!book) return;
 
-      // 올바른 초기화: St.PageFlip
       const pageFlip = new St.PageFlip(book, {
         width: 300,
         height: 500,
