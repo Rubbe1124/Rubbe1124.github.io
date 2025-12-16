@@ -2,79 +2,32 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>PageFlip 데모 (이미지 + 동영상)</title>
+  <title>PageFlip 데모</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- PageFlip CSS -->
+  <!-- 로컬 CSS 불러오기 -->
   <link rel="stylesheet" href="assets/vendor/pageflip/stPageFlip.css">
 
   <style>
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f0f0f0;
-    }
-
-    #book { width: 900px; height: 600px; }
-
+  margin: 0;
+  height: 100vh;              /* 화면 전체 높이 */
+  display: flex;
+  justify-content: center;    /* 가로 중앙 */
+  align-items: center;        /* 세로 중앙 */
+  background: #f0f0f0;
+}
+    #book { width:900px; height:600px; margin:40px auto; }
     .page {
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      box-sizing: border-box;
-      overflow: hidden;
-      padding: 0; /* 여백 제거 */
-    }
-
-    .media {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    /* 모든 이미지와 동영상을 동일하게 꽉 채우기 */
-    .media img,
-    .media video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;   /* 틀에 꽉 채움 (잘림 있음) */
-      display: block;
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px; background:#fff; padding:20px; box-sizing:border-box;
     }
   </style>
 </head>
 <body>
-  <div id="book">
-    <div class="page">
-      <div class="media">
-        <img src="assets/img/cover.jpg" alt="표지 이미지">
-      </div>
-    </div>
+  <div id="book"></div>
 
-    <div class="page">
-      <div class="media">
-        <img src="assets/img/page1.jpg" alt="예시 이미지">
-      </div>
-    </div>
-
-    <div class="page">
-      <div class="media">
-        <video controls>
-          <source src="assets/videos/myvideo.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <div class="page">
-      <div class="media">
-        <img src="assets/img/backcover.jpg" alt="뒷표지 이미지">
-      </div>
-    </div>
-  </div>
-
-  <!-- PageFlip JS -->
+  <!-- 로컬 JS 불러오기 -->
   <script src="assets/vendor/pageflip/page-flip.browser.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -85,11 +38,18 @@
         height: 600,
         size: "fixed",
         drawShadow: true,
-        flippingTime: 800,
+        flippingTime: 1000,
         showCover: false
       });
 
-      pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+pageFlip.loadFromImages([
+  "assets/img/cover.jpg",
+  "assets/img/page1.jpg",
+  "assets/img/page2.jpg",
+  "assets/img/page3.jpg",
+  "assets/img/page4.jpg",
+  "assets/img/backcover.jpg"
+]);
     });
   </script>
 </body>
