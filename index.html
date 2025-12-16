@@ -29,9 +29,9 @@
       flex-direction: column;
       background: #fff;
       box-sizing: border-box;
-      overflow: hidden;        /* 박스 밖으로 넘치는 요소 숨김 */
+      overflow: hidden;
       padding: 16px;
-      gap: 12px;               /* 제목/본문과 미디어 사이 여백 */
+      gap: 12px;
     }
 
     .page h2, .page p {
@@ -46,14 +46,13 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: #fafafa;
       border-radius: 8px;
     }
 
-    /* 이미지/비디오 공통 스타일 */
+    /* 이미지와 동영상을 동일하게 처리 */
     .media img,
     .media video {
-      width: 100%;             /* 폭은 페이지에 맞춤 */
+      width: 100%;             /* 페이지 폭에 맞춤 */
       height: auto;            /* 비율 유지 */
       max-width: 100%;
       max-height: 100%;        /* 페이지 높이를 넘지 않도록 제한 */
@@ -61,7 +60,6 @@
       display: block;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-      margin-bottom: 12px;     /* 아래쪽 여백 */
     }
   </style>
 </head>
