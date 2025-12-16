@@ -17,26 +17,66 @@
       align-items: center;
       background: #f0f0f0;
     }
-    #book { width:900px; height:600px; margin:40px auto; }
+
+    /* PageFlip 컨테이너 크기 */
+    #book { width: 900px; height: 600px; }
+
+    /* 각 페이지 박스 기본 레이아웃 */
     .page {
       width: 100%;
       height: 100%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      font-size:20px;
-      background:#fff;
-      padding:20px;
-      box-sizing:border-box;
-      overflow:hidden; /* 넘치는 콘텐츠 숨김 */
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-sizing: border-box;
+      overflow: hidden;        /* 박스 밖으로 넘치는 요소 숨김 */
+      padding: 16px;           /* 너무 큰 패딩은 높이를 줄이므로 최소화 */
+      gap: 12px;               /* 제목/본문과 미디어 사이 여백 */
     }
-    img, video {
-      max-width:100%;
-      max-height:calc(100% - 100px); /* 텍스트 공간 확보 */
-      border-radius:8px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.15);
-      object-fit:contain; /* 비율 유지 */
+
+    /* 제목/본문은 내용만큼 */
+    .page h2, .page p {
+      margin: 0;
+    }
+
+    /* 미디어 영역: 남은 공간을 전부 차지하게 하고, 내부 콘텐츠를 중앙 정렬 */
+    .media {
+      flex: 1;                 /* 페이지의 남은 높이를 모두 사용 */
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;        /* 미디어가 커도 래퍼 밖으로 못 나가게 */
+      background: #fafafa;     /* 선택: 배경 */
+      border-radius: 8px;
+    }
+
+    /* 이미지/비디오: 래퍼 안에서만 최대 크기 */
+    .media img,
+    .media video,
+    .media iframe {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;             /* 폭은 래퍼에 맞춤 */
+      height: auto;            /* 비율 유지 */
+      object-fit: contain;     /* 잘리지 않게 내부에 맞춤 */
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    /* 유튜브 등 iframe을 쓸 경우 비율 고정이 필요할 때 */
+    .media--ratio {
+      position: relative;
+      width: 100%;
+      /* 16:9 */
+      aspect-ratio: 16 / 9;    /* 지원되는 브라우저에서 간단히 해결 */
+      /* 지원 안 되는 브라우저용 대체: padding-top 트릭을 쓰려면 이 블록을 수정 */
+    }
+    .media--ratio iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
   </style>
 </head>
@@ -46,21 +86,35 @@
     <div class="page">
       <h2>표지</h2>
       <p>책 표지입니다.</p>
+      <div class="media">
+        <img src="assets/img/cover.jpg" alt="표지 이미지">
+      </div>
     </div>
+
     <div class="page">
       <h2>이미지 페이지</h2>
-      <img src="assets/img/page1.jpg" alt="예시 이미지">
+      <p>예시 이미지입니다.</p>
+      <div class="media">
+        <img src="assets/img/page1.jpg" alt="예시 이미지">
+      </div>
     </div>
+
     <div class="page">
       <h2>동영상 페이지</h2>
       <p>아래는 mp4 동영상 예시입니다.</p>
-      <video controls>
-        <source src="assets/videos/myvideo.mp4" type="video/mp4">
-      </video>
+      <div class="media">
+        <video controls>
+          <source src="assets/videos/myvideo.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
+
     <div class="page">
       <h2>마지막 페이지</h2>
       <p>책의 끝입니다.</p>
+      <div class="media">
+        <img src="assets/img/backcover.jpg" alt="뒷표지 이미지">
+      </div>
     </div>
   </div>
 
@@ -71,17 +125,16 @@
       const el = document.getElementById("book");
 
       const pageFlip = new St.PageFlip(el, {
-        width: 450,
-        height: 600,
+        width: 450,            // 단일 페이지 너비
+        height: 600,           // 단일 페이지 높이
         size: "fixed",
         drawShadow: true,
-        flippingTime: 1000,
+        flippingTime: 800,
         showCover: false
       });
 
       // HTML에 이미 작성된 .page 요소들을 불러오기
-      const pages = document.querySelectorAll(".page");
-      pageFlip.loadFromHTML(pages);
+      pageFlip.loadFromHTML(document.querySelectorAll(".page"));
     });
   </script>
 </body>
