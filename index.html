@@ -23,8 +23,6 @@
     .page {
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
       background: #fff;
       box-sizing: border-box;
       overflow: hidden;
@@ -32,13 +30,12 @@
     }
 
     .media {
-      flex: 1;
       width: 100%;
       height: 100%;
       overflow: hidden;
     }
 
-    /* 이미지와 동영상을 동일하게 꽉 채우기 */
+    /* 모든 이미지와 동영상을 동일하게 꽉 채우기 */
     .media img,
     .media video {
       width: 100%;
@@ -77,6 +74,7 @@
     </div>
   </div>
 
+  <!-- PageFlip JS -->
   <script src="assets/vendor/pageflip/page-flip.browser.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
