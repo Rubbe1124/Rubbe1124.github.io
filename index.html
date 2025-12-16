@@ -18,10 +18,8 @@
       background: #f0f0f0;
     }
 
-    /* PageFlip 컨테이너 크기 */
     #book { width: 900px; height: 600px; }
 
-    /* 각 페이지 박스 기본 레이아웃 */
     .page {
       width: 100%;
       height: 100%;
@@ -30,61 +28,41 @@
       background: #fff;
       box-sizing: border-box;
       overflow: hidden;
-      padding: 16px;
-      gap: 12px;
+      padding: 0; /* 여백 제거 */
     }
 
-    .page h2, .page p {
-      margin: 0;
-    }
-
-    /* 미디어 영역 */
     .media {
       flex: 1;
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 100%;
       overflow: hidden;
-      border-radius: 8px;
     }
 
-    /* 이미지와 동영상을 동일하게 처리 */
+    /* 이미지와 동영상을 동일하게 꽉 채우기 */
     .media img,
     .media video {
-      width: 100%;             /* 페이지 폭에 맞춤 */
-      height: auto;            /* 비율 유지 */
-      max-width: 100%;
-      max-height: 100%;        /* 페이지 높이를 넘지 않도록 제한 */
-      object-fit: contain;     /* 이미지 페이지처럼 딱 맞게 */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;   /* 틀에 꽉 채움 (잘림 있음) */
       display: block;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
   </style>
 </head>
 <body>
-  <!-- 책 페이지들을 HTML에 직접 작성 -->
   <div id="book">
     <div class="page">
-      <h2>표지</h2>
-      <p>책 표지입니다.</p>
       <div class="media">
         <img src="assets/img/cover.jpg" alt="표지 이미지">
       </div>
     </div>
 
     <div class="page">
-      <h2>이미지 페이지</h2>
-      <p>예시 이미지입니다.</p>
       <div class="media">
         <img src="assets/img/page1.jpg" alt="예시 이미지">
       </div>
     </div>
 
     <div class="page">
-      <h2>동영상 페이지</h2>
-      <p>아래는 mp4 동영상 예시입니다.</p>
       <div class="media">
         <video controls>
           <source src="assets/videos/myvideo.mp4" type="video/mp4">
@@ -93,30 +71,26 @@
     </div>
 
     <div class="page">
-      <h2>마지막 페이지</h2>
-      <p>책의 끝입니다.</p>
       <div class="media">
         <img src="assets/img/backcover.jpg" alt="뒷표지 이미지">
       </div>
     </div>
   </div>
 
-  <!-- PageFlip JS -->
   <script src="assets/vendor/pageflip/page-flip.browser.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const el = document.getElementById("book");
 
       const pageFlip = new St.PageFlip(el, {
-        width: 450,            // 단일 페이지 너비
-        height: 600,           // 단일 페이지 높이
+        width: 450,
+        height: 600,
         size: "fixed",
         drawShadow: true,
         flippingTime: 800,
         showCover: false
       });
 
-      // HTML에 이미 작성된 .page 요소들을 불러오기
       pageFlip.loadFromHTML(document.querySelectorAll(".page"));
     });
   </script>
